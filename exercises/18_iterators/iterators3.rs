@@ -9,7 +9,9 @@
 // Execute `rustlings hint iterators3` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+
+
+use std::result;
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum DivisionError {
@@ -38,17 +40,34 @@ pub fn divide(a: i32, b: i32) -> Result<i32, DivisionError> {
 // Complete the function and return a value of the correct type so the test
 // passes.
 // Desired output: Ok([1, 11, 1426, 3])
-fn result_with_list() -> () {
+fn result_with_list() -> Result<Vec<i32>,DivisionError> {
     let numbers = vec![27, 297, 38502, 81];
-    let division_results = numbers.into_iter().map(|n| divide(n, 27));
+    // let division_results = numbers.into_iter().map(|n| divide(n, 27));
+    let mut return_value = vec![];
+    for number in numbers {
+        match divide(number, 27) {
+            Ok(x) => return_value.push(x),
+            Err(e) => return Err(e),
+        }
+    }
+    Ok(return_value)
 }
+
 
 // Complete the function and return a value of the correct type so the test
 // passes.
 // Desired output: [Ok(1), Ok(11), Ok(1426), Ok(3)]
-fn list_of_results() -> () {
+fn list_of_results() -> Vec<Result<i32,DivisionError>> {
     let numbers = vec![27, 297, 38502, 81];
-    let division_results = numbers.into_iter().map(|n| divide(n, 27));
+    // let division_results = numbers.into_iter().map(|n| divide(n, 27));
+    let mut return_value = Vec::new();
+    for number in numbers{
+        match divide(number, 27) {
+            Ok(n) => return_value.push(Ok(n)),
+            Err(e) => return_value.push(Err(e)),
+        }
+    }
+    return_value
 }
 
 #[cfg(test)]
